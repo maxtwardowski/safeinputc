@@ -21,8 +21,9 @@ int main() {
 
 void safestringinput(char * str, size_t size) {
     int c;
-    fgets(str, size + 1, stdin);
-    if (strlen(str) == size)
+    fgets(str, size, stdin);
+    if (strlen(str) == size - 1)
         while ((c = getchar()) != '\n' && c != EOF);
     str[strcspn(str, "\n")] = '\0';
+    fflush(stdin);
 }
