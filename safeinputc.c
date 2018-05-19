@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
-void safestringinput(char * str, size_t size);
+int safestringinput(char * str, size_t size);
 
 int main() {
     char string1[20], string2[10], string3[8];
@@ -19,11 +20,19 @@ int main() {
     return 0;
 }
 
-void safestringinput(char * str, size_t size) {
-    int c;
+int safestringinput(char * str, size_t size) {
+    //returns 1 if overflow occured, otherwise 0 if no chars had to be truncated
+    bool overflowoccured = false;
     fgets(str, size, stdin);
-    if (strlen(str) == size - 1)
+    if (strlen(str) == size - 1) {
+        int c;
         while ((c = getchar()) != '\n' && c != EOF);
+        overflowoccured = true;
+    }
     str[strcspn(str, "\n")] = '\0';
     fflush(stdin);
+    if (overflowoccured)
+        return 1;
+    else
+        return 0;
 }
